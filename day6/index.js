@@ -13,12 +13,12 @@ const points = fs
       .map(i => parseInt(i, 10))
   );
 
+const maxX = maxBy(points, 0)[0] + 1;
+const maxY = maxBy(points, 1)[1] + 1;
+
 function manhattanDistance(x1, y1, x2, y2) {
   return Math.abs(x2 - x1) + Math.abs(y2 - y1);
 }
-
-const maxX = maxBy(points, 0)[0] + 1;
-const maxY = maxBy(points, 1)[1] + 1;
 
 // part 1
 (function() {

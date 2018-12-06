@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { maxBy, max, sum } = require("lodash");
+const { maxBy, minBy, groupBy, max, sum } = require("lodash");
 
 const points = fs
   .readFileSync("input.txt")
@@ -27,25 +27,16 @@ const maxY = maxBy(points, 1)[1] + 1;
   for (let y = 0; y < maxY; y++) {
     for (let x = 0; x < maxX; x++) {
       const distances = points.map(p => manhattanDistance(x, y, p[0], p[1]));
-      let minDistanceIndex = 0;
-      let hasEqual = new Set();
-      for (let i = 0; i < distances.length; i++) {
-        if (i === 0) continue;
-        if (distances[i] === distances[minDistanceIndex]) {
-          hasEqual.add(minDistanceIndex).add(i);
+      const minDistanceIndex = minBy(Array.from(distances.keys()), i => distances[i]);
+      const disttanceCounts = groupBy(distances);
+
+      if (disttanceCounts[distances[minDistanceIndex]].length == 1) {
+        if (x === 0 || y === 0 || x >= maxX - 1 || y >= maxY - 1) {
+          edges.add(minDistanceIndex);
         }
-        if (distances[i] < distances[minDistanceIndex]) {
-          minDistanceIndex = i;
-        }
+        const area = areas[minDistanceIndex] || 0;
+        areas[minDistanceIndex] = area + 1;
       }
-      if (hasEqual.has(minDistanceIndex)) {
-        continue;
-      }
-      if (x === 0 || y === 0 || x >= maxX - 1 || y >= maxY - 1) {
-        edges.add(minDistanceIndex);
-      }
-      const area = areas[minDistanceIndex] || 0;
-      areas[minDistanceIndex] = area + 1;
     }
   }
   const areasIfNotEdge = areas.filter((_, i) => !edges.has(i));

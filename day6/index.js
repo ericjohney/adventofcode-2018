@@ -23,19 +23,19 @@ const maxY = maxBy(points, 1)[1] + 1;
 // part 1
 (function() {
   const edges = new Set();
-  const areas = Array.from(Array(points.length));
+  const areas = Array(points.length);
   for (let y = 0; y < maxY; y++) {
     for (let x = 0; x < maxX; x++) {
       const distances = points.map(p => manhattanDistance(x, y, p[0], p[1]));
-      const minDistanceIndex = minBy(Array.from(distances.keys()), i => distances[i]);
-      const disttanceCounts = groupBy(distances);
+      const counts = groupBy(distances);
+      const minPointId = minBy(Array.from(distances.keys()), i => distances[i]);
 
-      if (disttanceCounts[distances[minDistanceIndex]].length == 1) {
+      if (counts[distances[minPointId]].length == 1) {
         if (x === 0 || y === 0 || x >= maxX - 1 || y >= maxY - 1) {
-          edges.add(minDistanceIndex);
+          edges.add(minPointId);
         }
-        const area = areas[minDistanceIndex] || 0;
-        areas[minDistanceIndex] = area + 1;
+        const area = areas[minPointId] || 0;
+        areas[minPointId] = area + 1;
       }
     }
   }

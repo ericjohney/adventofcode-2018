@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "lodash": "^4.17.11",
-    "mathjs": "^5.3.1"
+    "mathjs": "^7.5.1"
   },
   "devDependencies": {}
 }
